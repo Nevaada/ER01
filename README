@@ -1,0 +1,8 @@
+ping -c 1 -s 1000 www.youtube.com | tail -1 | awk '{print$4}' | cut -d '/' -f 2
+
+> library("ggplot2")
+> df = read.csv("./Documents/ER01/data.csv",header=F,col.names = c("packet_size","ping_time"))
+> plot(ping_time~packet_size,data=df,main="Comparison")
+> coeff_lm = lm(ping_time~packet_size,data=df)
+> abline(coeff_lm,col="red")
+> summary(coeff_lm)
