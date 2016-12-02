@@ -1,8 +1,23 @@
-ping -c 1 -s 1000 www.youtube.com | tail -1 | awk '{print$4}' | cut -d '/' -f 2
+## AMBAL Guillaume, BADIN de MONTJOYE Xavier, NGUYEN Ha, MAHMOUD--LAMY Pierre
 
-> library("ggplot2")
-> df = read.csv("./Documents/ER01/data.csv",header=F,col.names = c("packet_size","ping_time"))
-> plot(ping_time~packet_size,data=df,main="Comparison")
-> coeff_lm = lm(ping_time~packet_size,data=df)
-> abline(coeff_lm,col="red")
-> summary(coeff_lm)
+# Goal
+
+The project is to study the ping latency according to the size of sent packets in order to get the bandwidth using the formula ping=latency+size/bandwidth.
+
+-----------------------------
+
+# Getting the data
+
+First we get data by using the following shell command:
+
+ping -c 1 -s unifsize www.youtube.com | tail -1 | awk '{print$4}' | cut -d '/' -f 2
+where unifsize is a randomly picked packet size between 100 bits and 1400 bits.
+
+We thus use a small python script to get a huge number of values. It just takes
+a file name and a number of values to produce and save data as (packet_size,ping_time) couples in a .csv file to be analyzed.
+
+-----------------------------
+
+# Analysis, conclusion
+
+With R, the data is loaded to plot a graph ping_time~packet_size. We use a linear regression to get an approximation on the bandwidth. The equation of the linear regression and the graph obtained with ggplot are stored as a .png file.
