@@ -6,24 +6,30 @@ import random
 
 # Variables
 
-min_packet_size = 50
-max_packet_size = 1400
+min_packet_size = 11000
+max_packet_size = 12500
 separator = ','
 
 # Functions
 
 def get_ping(packet_size) :
     """get a ping time for the given packet size"""
-    return os.popen("ping -c 1 -s %s www.youtube.com | tail -1 | awk '{print$4}' | cut -d '/' -f 2" % (packet_size)).read()
+    ping_time = os.popen("ping -c 1 -s %s 77.95.65.117 | tail -1 | awk '{print$4}' | cut -d '/' -f 2" % (packet_size)).read()
+    if len(ping_time)>1 :
+        return ping_time
+    else :
+        return 0
 
 def gener_data(file_name,n) :
     """adds n random couples (packet_size,ping_time) to file data.dat"""
-    for _ in range(n) :        
-        data_file = open(file_name, 'a')
+            
+    data_file = open(file_name, 'a')
+    for _ in range(n) :    
         packet_size = random.randint(min_packet_size,max_packet_size)
         ping_time = get_ping(packet_size) #type str
-        data_file.write(str(packet_size)+separator+ping_time)
-        data_file.close()
+        if (ping_time != 0):
+            data_file.write(str(packet_size)+separator+ping_time)
+    data_file.close()
 
 # Main
 

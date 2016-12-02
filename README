@@ -10,8 +10,10 @@ The project is to study the ping latency according to the size of sent packets i
 
 First we get data by using the following shell command:
 
-ping -c 1 -s unifsize www.youtube.com | tail -1 | awk '{print$4}' | cut -d '/' -f 2
-where unifsize is a randomly picked packet size between 100 bits and 1400 bits.
+ping -c 1 -s unifsize 77.95.65.117 | tail -1 | awk '{print$4}' | cut -d '/' -f 2
+where unifsize is a randomly picked packet size between :
+    - 100 bits and 1400 bits for low size tests;
+    - 10000 bits and 15000 bits for huge size tests.
 
 We thus use a small python script to get a huge number of values. It just takes
 a file name and a number of values to produce and save data as (packet_size,ping_time) couples in a .csv file to be analyzed.

@@ -1,5 +1,10 @@
 library(ggplot2)
-df = read.csv("data.csv",header=F,col.names = c("packet_size","ping_time"))
+library(plyr)
+df_orig = read.csv("data.csv",header=F,col.names = c("packet_size","ping_time"))
+
+#df = df_orig[df_orig$ping_time<50,]
+df = ddply(df_orig,c("packet_size"), summarize, ping_time=min(ping_time))
+
 
 lin_regr = lm(ping_time ~ packet_size, data=df)
 lbl = paste("linear regression: ping =",signif(summary(lin_regr)$coef[[1]],digits = 3),
